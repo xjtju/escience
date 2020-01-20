@@ -10,6 +10,9 @@ public class SecurityContext {
     public static final String KEY_CURRENT_USER = "current_user";
     public static final String KEY_AUTH_SERVER=  "auth_server";
     public static final String KEY_AUTH_ESCIENCE=  "as_escience";
+    public static final String KEY_AUTH_CSTNET=  "as_cstnet";
+    //public static final String KEY_CONF_ESCIENCE = "escience.properties";
+    //public static final String KEY_CONF_CSTNET = "cstnet.properties";
 
     public static String setAuthSrv(Context ctx, String s) {
         ctx.sessionAttribute(KEY_AUTH_SERVER, s);
@@ -27,6 +30,12 @@ public class SecurityContext {
         String o = getAuthSrv(ctx);
         log.info("login from {}.", o);
         return KEY_AUTH_ESCIENCE.equalsIgnoreCase(o);
+    }
+
+    public static boolean isAuthCstnet(Context ctx) {
+        String o = getAuthSrv(ctx);
+        log.info("login from {}.", o);
+        return KEY_AUTH_CSTNET.equalsIgnoreCase(o);
     }
 
     public static User setCurrentUser(Context ctx, User u) {

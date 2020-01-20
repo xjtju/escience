@@ -22,7 +22,7 @@ public class CVOWeb {
     public static void start(){
         app.get("/", ctx -> ctx.redirect("index.html") );
 
-        app.get("/escience", EScienceOAuth2Filter.signin);
+        app.get("/signin", EScienceOAuth2Filter.signin);
 
         app.get("/loginEscience", EntryPoint.gotoEscience);
         app.get("/loginCstnet", EntryPoint.gotoCstnet);

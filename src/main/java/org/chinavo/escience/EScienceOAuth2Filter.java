@@ -1,5 +1,8 @@
 package org.chinavo.escience;
 
+import cn.vlabs.umt.oauth.AccessToken;
+import cn.vlabs.umt.oauth.Oauth;
+import cn.vlabs.umt.oauth.UserInfo;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import kong.unirest.HttpResponse;
@@ -17,6 +20,8 @@ public class EScienceOAuth2Filter {
         // 调用对应的登录验证
         if(SecurityContext.isAuthEscience(ctx)) {
            loginFromEscience(ctx);
+        } else if(SecurityContext.isAuthCstnet(ctx)) {
+            loginFromCstnet(ctx);
         } else {
             log.error("unknown authorization server!");
             ctx.json("unknown authorization server");
@@ -29,7 +34,7 @@ public class EScienceOAuth2Filter {
     static void loginFromEscience(Context ctx) {
         String code = ctx.queryParam("code","");
         log.info("escience auth code is {}", code);
-        EScienceConfig c = new EScienceConfig();
+        OAuthConfig c = new EScienceConfig();
         log.info("using escience config {}", c);
 
         HttpResponse<JsonNode> tokenRes = Unirest.post(c.accessTokenURL)
@@ -63,4 +68,24 @@ public class EScienceOAuth2Filter {
 
         ctx.json(ujson.toMap());
     }
+
+    static void loginFromCstnet(Context ctx) {
+        String code = ctx.queryParam("code","");
+        log.info("cstnet(UMT) auth code is {}", code);
+        OAuthConfig c = new CstnetConfig();
+        log.info("using cstnet(UMT) config {}", c);
+
+        AccessToken token = null;
+        try {
+            Oauth oauth = new Oauth("cstnet.properties");
+            token = oauth.getAccessTokenByRequest(ctx.req);
+        } catch (Exception e) {
+            log.error("UMTOauth error : ", e);
+        }
+        UserInfo userInfo = token.getUserInfo();
+        String username = userInfo.getCstnetId();
+        log.info("UMTOauth user : ", username);
+        ctx.json(userInfo);
+    }
+
 }

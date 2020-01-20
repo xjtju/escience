@@ -13,6 +13,10 @@ compileJava.options.encoding = 'UTF-8'
 repositories {
     mavenCentral()
 }
+configurations {
+    provided
+    compile.extendsFrom provided
+}
 
 dependencies {
     compile 'io.javalin:javalin:3.7.0'
@@ -24,6 +28,8 @@ dependencies {
 
     compile 'com.konghq:unirest-java:3.3.00'
     compile 'org.apache.commons:commons-lang3:3.9'
+
+    provided fileTree(dir: 'lib', include: ['*.jar'])
 }
 
 mainClassName = 'org.chinavo.escience.Main'
