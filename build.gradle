@@ -8,7 +8,6 @@ version '0.1'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-compileJava.options.encoding = 'UTF-8'
 
 repositories {
     mavenCentral()
@@ -19,16 +18,18 @@ configurations {
 }
 
 dependencies {
-    compile 'io.javalin:javalin:3.7.0'
+    implementation 'io.javalin:javalin:3.7.0'
 
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.10.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.0'
 
-    compile 'org.slf4j:slf4j-api:1.7.26'
-    compile 'ch.qos.logback:logback-classic:1.2.3'
+    implementation 'org.slf4j:slf4j-api:1.7.26'
+    implementation 'ch.qos.logback:logback-classic:1.2.3'
 
-    compile 'com.konghq:unirest-java:3.3.00'
-    compile 'org.apache.commons:commons-lang3:3.9'
-
+    implementation 'com.konghq:unirest-java:3.3.00'
+    implementation 'org.apache.commons:commons-lang3:3.9'
+    
+    implementation 'com.auth0:java-jwt:3.9.0'
+    
     provided fileTree(dir: 'lib', include: ['*.jar'])
 }
 
